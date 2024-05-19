@@ -1,0 +1,204 @@
+'''
+Inglish: Please install DB browser for SQLite to save your content to the database
+
+Portuguese: Por favor, instale o DB browser for SQLite para salvar seu conteúdo no banco de dados 
+'''
+
+
+# Instalar na sua IDE essas bibliotecas
+# Install in your IDE this libraly
+
+from customtkinter import *
+from PIL import Image
+import webbrowser
+import sqlite3
+from sqlite3 import Error
+# Criando a janela
+# Create window
+
+app = CTk()
+app.title("  Bem Vindo!")
+app.geometry("800x450")
+app.maxsize(width=800, height=450)
+app.minsize(width=800, height=450)
+
+# Funçôes 
+# Functions
+
+def limpar():
+    nome.delete(0, END)
+    email.delete(0, END)
+    idade.delete(0, END)
+    senha.delete(0, END)
+
+
+def github():
+    webbrowser.open("https://yoursite/")  # Your website
+
+
+def instagram():
+    webbrowser.open("https://yoursite/") # Your profile of Instagram
+
+
+def sair():
+    app.destroy()
+
+
+def pagina2():
+    app2 = CTk()
+    app2.title("Obrigado!")
+    app2.geometry("200x400")
+    app2.maxsize(width=400, height=200)
+    app2.minsize(width=400, height=200)
+
+    CTkLabel(app2, text='Você receberá um em e-mail para').place(x=110, y=70)
+    CTkLabel(app2, text='confirmar seu cadastro.').place(x=130, y=90)
+
+# Se botão cadastrar foi clicado
+# If button sing up is clicked
+
+def cadastra():
+    provedores = ['gmail', 'hotmail']
+
+    if (nome.get() != '' and "@" in email.get() and email.get()[email.get().index("@") + 1: email.get().index(
+            ".com")] in provedores and senha.get() != '' and
+            idade.get() != '' and genero.get() != ''):
+
+        vemail = email.get()
+        vnome = nome.get()
+        vsenha = senha.get()
+        vidade = idade.get()
+        vgenero = genero.get()
+
+        nome.delete(0, END)
+        email.delete(0, END)
+        idade.delete(0, END)
+        senha.delete(0, END)
+
+        # Criando banco de dados
+        # Creating data bases
+
+        addsql = ("INSERT INTO dados (Nome, Email, Senha, Idade, Gênero) VALUES('" + vnome + "', '" + vemail + "', '"
+                  + vidade + "', '" + vsenha + "', '" + vgenero + "')")
+
+        def conexao():
+            arquivo = "directory of your table of data base" # Diretório da sua tabela do danco de dados
+            cone = None
+            try:
+                cone = sqlite3.connect(arquivo)
+            except Error as er:
+                print(er)
+            return cone
+
+        dbconexao = conexao()
+
+        def adicionar(conex, sql):
+            try:
+                c = conex.cursor()
+                c.execute(sql)
+                conex.commit()
+                print('ok')
+            except Error as er:
+                print(er)
+
+        adicionar(dbconexao, addsql)
+
+        pagina2()
+
+    # QUEBRANDO POSSIBILIDADES DE BURLAR O PAINEL
+
+    elif nome.get() == '' and email.get() == '' and idade.get() == '' and senha.get() == '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() != '' and email.get() == '' and idade.get() == '' and senha.get() == '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() == '' and email.get() != '' and idade.get() == '' and senha.get() == '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() == '' and email.get() == '' and idade.get() != '' and senha.get() == '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() == '' and email.get() == '' and idade.get() == '' and senha.get() != '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() != '' and email.get() != '' and idade.get() == '' and senha.get() == '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() == '' and email.get() != '' and idade.get() != '' and senha.get() == '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() == '' and email.get() == '' and idade.get() != '' and senha.get() != '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() != '' and email.get() == '' and idade.get() != '' and senha.get() == '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() == '' and email.get() != '' and idade.get() == '' and senha.get() != '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() != '' and email.get() == '' and idade.get() == '' and senha.get() != '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() != '' and email.get() != '' and idade.get() != '' and senha.get() == '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    elif nome.get() == '' and email.get() != '' and idade.get() != '' and senha.get() != '':
+        CTkLabel(app, text='Preencha os campos acima!', text_color='#ff0000').place(x=450, y=260)
+
+    else:
+        CTkLabel(app, text='Formato de e-mail inválido!', text_color='#ff0000').place(x=450, y=260)
+
+
+# TUDO QUE VAI FICAR NA PARTE AZUL DA TELA
+
+frame = CTkFrame(app, width=250, height=450, fg_color='#035')
+frame.place(x=1, y=1)
+CTkLabel(frame, text='Seja bem vindo!', text_color='#fff', font=('', 25)).place(x=25, y=120)
+CTkLabel(frame, text='Crie uma conta para acessar.', text_color='#fff').place(x=40, y=160)
+CTkLabel(frame, text='É grátis!', text_color='#fff').place(x=100, y=180)
+
+CTkLabel(frame, text='Siga nossas redes', text_color='#fff').place(x=70, y=210)
+
+img = Image.open("/home/user-ghost/images-removebg-preview.png")
+CTkButton(frame, text='', fg_color='#035', command=github, image=CTkImage(light_image=img), hover_color='#036',
+          height=40, width=40).place(x=80, y=240)
+
+img2 = Image.open("/home/user-ghost/i-removebg-preview.png")
+CTkButton(frame, text='', fg_color='#035', command=instagram, image=CTkImage(light_image=img2), hover_color='#036',
+          height=40, width=40).place(x=120, y=240)
+
+CTkButton(frame, text='Sair', command=sair).place(x=50, y=400)
+
+# CRIANDO A PARTE DE CADASTRO
+
+CTkLabel(app, text='Nome:', font=('', 15)).place(x=280, y=40)
+nome = CTkEntry(app, placeholder_text='Apenas letras e números', width=210, border_color='#000')
+nome.place(x=280, y=70)
+
+CTkLabel(app, text='E-mail:', font=('', 15)).place(x=280, y=100)
+email = CTkEntry(app, placeholder_text='ex: user@gmail.com', width=210, border_color='#000')
+email.place(x=280, y=130)
+
+CTkLabel(app, text='Senha:', font=('', 15)).place(x=280, y=160)
+senha = CTkEntry(app, placeholder_text='Números, letras ou caracteres especiais', width=210,
+                 border_color='#000',font=('', 10), show='*')
+senha.place(x=280, y=190)
+
+CTkLabel(app, text='Idade:', font=('', 15)).place(x=550, y=40)
+idade = CTkEntry(app, placeholder_text='Números', width=100, border_color='#000', font=('', 10))
+idade.place(x=550, y=70)
+
+CTkLabel(app, text='Gênero:', font=('', 15)).place(x=550, y=100)
+genero = CTkComboBox(app, values=['Masculino', 'Feminino'], border_color='#000', button_color='#000',
+                     button_hover_color='#000')
+genero.place(x=550, y=130)
+
+# PARTE DOS BOTÕES
+
+CTkButton(app, text='Cadastrar', command=cadastra).place(x=350, y=300)
+CTkButton(app, text='Limpar tudo', command=limpar).place(x=550, y=300)
+
+CTkLabel(app, text='Tela de login criada por Kaio Alves.').place(x=430, y=370)
+
+app.mainloop()
